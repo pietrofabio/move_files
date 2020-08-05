@@ -1,16 +1,15 @@
 import os
-from os import remove
 import shutil
 import time
 import sys
 from datetime import datetime, timedelta
 
-# TOTAL FCST
-
 # Alte Dateien verschieben
 
+# TOTAL FCST
+
 source = '//db-rb-fs001/data_qlik_desktop/data_source_apps/drr_pilot/FOR_006_Ttl/'
-newsource = '//db-rb-fs001/data_qlik_desktop/data_source_apps/drr_pilot/FOR_006_Ttl/Store/'
+newsource = '//db-rb-fs001/data_qlik_desktop/data_source_apps/drr_pilot/FOR_006_Ttl//Store/'
 i = 0
 files = os.listdir(source)
 
@@ -26,23 +25,7 @@ if i == 0:
     print("Die FOR_006_TTL Dateien fehlen.")
     sys.exit()
 
-# Neue Dateien reinkopieren
-
-source = 'T:/Analyse/'
-newsource = 'U:/data_source_apps/drr_pilot/FOR_006_Ttl/'
-i = 0
-files = os.listdir(source)
-
-for file in files:
-    if '_T_' in file:
-        shutil.move(source + file, newsource + file)
-        i = i + 1
-
-print(i)
-
 # FCST
-
-# Alte Dateien verschieben
 
 source = '//db-rb-fs001/data_qlik_desktop/data_source_apps/drr_pilot/FOR_006/'
 newsource = '//db-rb-fs001/data_qlik_desktop/data_source_apps/drr_pilot/FOR_006/Store/'
@@ -58,8 +41,10 @@ for file in files:
 print(i)
 
 if i == 0:
-    print("Die FOR_006_TTL Dateien fehlen.")
+    print("Die FOR_006 Dateien fehlen.")
     sys.exit()
+
+# Neue Dateien verschieben
 
 source = '//dwa-bu-sftp001/Datevdownloads/transport.h-hotels.com/Revenue/Analyse/'
 dest_block_deposit = '//db-rb-fs001/data_qlik_desktop/data_source_apps/block_conversion_analysis/bus_022_deposits/'
@@ -101,16 +86,16 @@ for file in files:
             shutil.move(os.path.join(source, file), os.path.join(dest_FOR_006, file))
         except: FileNotFoundError
     if 'ramada_conversion' in file and 'sales' not in file:
-        shutil.move(os.path.join(source, file),os.path.join(dest_BUS_055,file))
+        shutil.move(os.path.join(source, file), os.path.join(dest_BUS_055, file))
 
 files = os.listdir(dest_BUS_055)
 
 for file in files:
     try:
-        f= open(dest_BUS_055+file,'r',encoding="utf-8",errors = 'ignore')
-        content=f.read()
+        f = open(dest_BUS_055+file, 'r', encoding="utf-8", errors='ignore')
+        content = f.read()
         f.close()
-        f=open(dest_BUS_055+file[0:],'w',encoding="utf-8")
+        f = open(dest_BUS_055+file[0:], 'w', encoding="utf-8")
         f.write(content)
         f.close()
     except UnicodeDecodeError:
